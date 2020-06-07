@@ -2,8 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
-const path = require("path")
-var moment = require('moment')
+const path = require('path')
+const moment = require('moment')
 
 const port = process.env.PORT || 5000
 const app = express()
@@ -45,7 +45,7 @@ app.post('/upload', (req, res) => {
 
 		const allowedExtensions = /xml|jpeg|jpg|pdf/
 
-		if (!allowedExtensions.test(extension)) throw "Unsupported file type!";
+		if (!allowedExtensions.test(extension)) throw 'Unsupported file type!'
 
 		//mv = move the file to current dir/client(react)/public
 		file.mv(`${__dirname}/client/public/uploads/${file.name}`)
