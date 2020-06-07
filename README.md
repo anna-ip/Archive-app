@@ -13,7 +13,7 @@ Look at multer.js and compare with fileupload
 
 ## Built
 Installed required dependecies with npm install
-Start project **npm run dev 
+Start project npm run dev 
 
 ## Tech
 * React
