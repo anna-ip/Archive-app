@@ -1,16 +1,21 @@
 # Archive app
 An app for archive files in jpeg, xml and pdf format, to upload chosen files and watch them in an archive, built with React and Express for the backend.
 
-*Step 2 Finish the archive.js file for displaying and deleting files, add more styling with bootstrap or CSS.
+## Process:
+Started with some planing and research for the upload post request
+Focused on the upload function to start with bcs of the limit of approx. 4 hrs to build the app. 
 
-## Requirements:
-* Upload a file with metadata; name, description, date
-* Allowed filetypes xml, pdf, jpeg
-* List files and data in columns, with icons.
-* Click the file to open and download the file.
-* Possible to remove uploaded file.
+*Next step: 
+Finish the archive.js file for displaying and deleting files and add icons, 
+Add the metadata from the form to the uploaded file 
+Add more styling with bootstrap or CSS
+Look at multer.js and compare with fileupload
 
-##Tech
+## Built
+Installed required dependecies with npm install
+Start project **npm run dev 
+
+## Tech
 * React
 * Node
 * Express
