@@ -11,28 +11,25 @@ const app = express()
 // enable files upload **
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(fileUpload())
-// app.use(fileUpload({
-// 	createParentPath: true
-// }));
 
-//app.use(express.static('uploads'));
+//make uploads directory static
 app.use(express.static('./public'));
 
 //middlewares
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(fileUpload())
+app.use(fileUpload())
 
 app.get('/', (req, res) => {
-	res.send('hello world')
+	res.send('Hello world')
 })
 
-app.get('/upload', (req, res) => {
-	console.log('req.files.file', req.files.file)
-	res.json(req.files.file) //files should give the uploaded file
-	res.json(req.body.file) //body should give the name and description field
+//Get endpoint
+app.get('/files', (req, res) => {
+	res.json(req.body) //body should give the name and description field, shows an empty object?
+	console.log('req.files', req.files)
+	//res.json(req.files) //files should give the uploaded file, but shows nothing in Postman
 })
 
 //Upload endpoint 
@@ -44,8 +41,6 @@ app.post('/upload', (req, res) => {
 
 		const file = req.files.file
 		const fileName = file.name
-		//const description = req.body
-		//const date = moment().add(10, 'days').calendar()
 		const extension = path.extname(fileName)
 
 		const allowedExtensions = /xml|jpeg|jpg|pdf/
@@ -58,9 +53,11 @@ app.post('/upload', (req, res) => {
 		res.json({
 			message: 'File uploaded successfully!',
 			fileName: file.name,
+			user: req.body,
 			description: req.body,
 			date: moment().add(10, 'days').calendar(),
-			filePath: `/uploads/${file.name}`
+			filePath: `/uploads/${file.name}`,
+			extension: path.extname(fileName)
 		})
 	} catch (err) { 	//catch if path doesnt exist
 		console.error(err)
@@ -69,11 +66,9 @@ app.post('/upload', (req, res) => {
 	}
 })
 
-//make uploads directory static
-app.use(express.static('uploads'));
-
 //Delete endpoint
-//app.delete('/upload')
+//maybe pass in an id for the spec. file?
+//app.delete('/files', (req, res) => {})
 
 // Start the server
 app.listen(port, () => {
