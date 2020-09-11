@@ -7,11 +7,12 @@ const Archive = () => {
 	//fetch with axios the uploaded files and info here
 	useEffect(() => {
 		setLoading({ loading: true });
-		axios.get('http://localhost:5000/files').then((files) => {
-			const allData = files.file
-			console.log('All data', allData)
-			setLoading({ loading: false, file: allData })
-		})
+		axios.get('http://localhost:5000/files')
+			.then((files) => {
+				const allData = files.file
+				console.log('All data', allData)
+				setLoading({ loading: false, file: allData })
+			})
 	}, [setLoading])
 
 

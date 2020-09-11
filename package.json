@@ -1,5 +1,5 @@
 {
-  "name": "Archive-app",
+  "name": "archive-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -24,9 +24,10 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.7-alpha.3",
+    "express-fileupload": "^1.2.0",
     "moment": "^2.26.0",
-    "npm": "^6.14.5"
+    "mongoose": "^5.9.19",
+    "npm": "^6.14.8"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
