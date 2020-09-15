@@ -4,8 +4,9 @@ import axios from 'axios'
 const Archive = (uploadedFile) => {
   //?not sure if this is the rigth way to go.....
   const [loading, setLoading] = useState()
+  const [list, setList] = useState([]) //? list with all meta data
 
-  //fetch with axios the uploaded files and info here
+  //TODO fetch with axios the uploaded files and info here
   useEffect(() => {
     setLoading({ loading: true })
     axios.get('http://localhost:5050/files').then((files) => {
@@ -13,9 +14,25 @@ const Archive = (uploadedFile) => {
       console.log('All data', allData)
       setLoading({ loading: false, file: allData })
     })
-  }, [setLoading])
+    //   .then((res) => res.json())
+    //   .then((json) => setList(json))
+    // console.log(setList)
+  }, [setLoading]) //dependencies for when the fecth should update
 
-  //delete btn function handled with axios, need to pass in an id
+  useEffect(() => {
+    //setLoading({ loading: true })
+    fetch('http://localhost:5050/files')
+      .then((res) => res.json())
+      .then((json) => setList(json))
+    //console.log('All meta', setList)
+    //setLoading({ loading: false, file: allData })
+  }, [list]) //dependencies for when the fecth should update
+  //   .then((res) => res.json())
+  //   .then((json) => setList(json))
+  // console.log(setList)
+  //}, [setLoading, list]) //dependencies for when the fecth should update
+
+  //TODO delete btn function handled with axios, need to pass in an :id
   const handleDeleteClick = () => {
     console.log('handleDeleteClick')
     axios.delete('http://localhost:5050/files', {

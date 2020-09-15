@@ -17,15 +17,19 @@ const FileUpload = () => {
     setFileName(e.target.files[0].name) //this changes the name in {fileName} and is the name of the above file
   }
 
+  //? Do I need two post requests ???
+
   const onSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData() //FormData is part of Javascript
     //first 'file' is from backend and second file is from state
     formData.append('file', file) //means that we send along the file.
+    // ? formData.append('...?...', JSON.stringify(..?....))
     console.log('file', file)
 
     try {
       const res = await axios.post('http://localhost:5050/upload', formData, {
+        //? Do I need a body? body: JSON.stringify({ ...?..}),}
         header: {
           'Content-Type': 'multipart/form-data',
         },

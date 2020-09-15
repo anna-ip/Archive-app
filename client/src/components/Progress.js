@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 const Progress = ({ percentage }) => {
   return (
-    // line-height in progress is wrong in some way!
-    <div className='progress mb-4 line-height:inherit!important'>
+    //? line-height in progress is wrong in some way! ?
+    <div className='progress mb-4 line-height:1.25!important'>
       <div
         className='progress-bar progress-bar-striped bg-success '
         role='progressbar'
