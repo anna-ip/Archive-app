@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div className='App'>
       <header className='App-header'>File Archive</header>
-      <Archive />
+      <Archive FileUpload={FileUpload} />
       <FileUpload />
     </div>
   )

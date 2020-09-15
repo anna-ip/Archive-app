@@ -5,7 +5,7 @@ const fileUpload = require('express-fileupload')
 const path = require('path')
 const moment = require('moment')
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5050
 const app = express()
 
 // enable files upload
@@ -61,9 +61,9 @@ app.post('/upload', (req, res) => {
       user: data.user, //dosent show in console
       description: data.body, //dosent show in console
       //description: data.description,
-      date: moment().add(10, 'days').calendar(),
+      date: moment().add(10, 'days').calendar(), //!wrong date?!
       filePath: `uploads/${file.name}`,
-      //filePath: `http://localhost:5000/uploads/${file.name}`,
+      //filePath: `http://localhost:5050/uploads/${file.name}`,
       extension: path.extname(fileName),
     })
   } catch (err) {

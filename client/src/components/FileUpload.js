@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import Message from './Message'
+import Progress from './Progress'
 
 const FileUpload = () => {
   const [file, setFile] = useState('')
   const [fileName, setFileName] = useState('Choose File')
-  const [uploadedFile, setUploadedFile] = useState({})
+  const [uploadedFile, setUploadedFile] = useState({}) //{} an object
   const [user, setUser] = useState('')
   const [description, setDescription] = useState('')
+  const [message, setMessage] = useState('')
+  const [uploadPercentage, setUploadPercentage] = useState(0)
 
   const onChange = (e) => {
     setFile(e.target.files[0]) //this could be an array of files, we chose the first one = [0]
@@ -15,35 +19,70 @@ const FileUpload = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    const formData = new FormData()
+    const formData = new FormData() //FormData is part of Javascript
     //first 'file' is from backend and second file is from state
-    formData.append('file', file)
+    formData.append('file', file) //means that we send along the file.
     console.log('file', file)
 
     try {
-      const res = await axios.post('http://localhost:5000/upload', formData, {
+      const res = await axios.post('http://localhost:5050/upload', formData, {
         header: {
           'Content-Type': 'multipart/form-data',
         },
+        onUploadProgress: (ProgressEvent) => {
+          setUploadPercentage(
+            parseInt(
+              Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)
+            )
+          )
+
+          // Clear percentage
+          setTimeout(() => setUploadPercentage(0), 10000)
+        },
       })
 
-      const { fileName, filePath } = res.data
+      const {
+        fileName,
+        filePath,
+        date,
+        extension,
+        user,
+        description,
+      } = res.data
       console.log('res.data', res.data)
 
-      setUploadedFile({ fileName, filePath })
-      console.log('setUploadedFile', fileName, filePath)
+      setUploadedFile({
+        fileName,
+        filePath,
+        date,
+        extension,
+        user,
+        description,
+      })
+      console.log(
+        'setUploadedFile:',
+        fileName,
+        filePath,
+        date,
+        extension,
+        user,
+        description
+      )
+
+      setMessage('File uploaded')
     } catch (err) {
       if (err.response.status === 500) {
-        console.log('There was a problem with the server')
+        setMessage('There was a problem with the server')
       } else {
-        console.log(err.response.data.msg)
+        setMessage(err.response.data.msg) //the 400 msg from the backend
       }
     }
   }
   return (
     <>
-      <form className='container m-4' onSubmit={onSubmit}>
-        <div className='form-group'>
+      {message ? <Message msg={message} /> : null}
+      <form className='container m-14' onSubmit={onSubmit}>
+        <div className='form-group '>
           <label htmlFor='user'>Name</label>
           <input
             type='text'
@@ -69,7 +108,7 @@ const FileUpload = () => {
             required
           />
         </div>
-        <div className='custom-file'>
+        <div className='custom-file mb-3'>
           <input
             type='file'
             name='file'
@@ -81,19 +120,28 @@ const FileUpload = () => {
             {fileName}
           </label>
         </div>
+        {/* the progressbar takes in the prop percentage that will be equal to the
+        uploadPercetage with default 0 */}
+        <Progress className='mt-4 mb-4' percentage={uploadPercentage} />
         <input
           type='submit'
           value='Upload file'
-          className='btn btn-secondary btn-block mt-4'
+          className='btn btn-secondary btn-block mt-6'
         />
       </form>
 
-      {uploadedFile ? (
-        <div>
-          <p>{uploadedFile.fileName}</p>
-          <img src={uploadedFile.filePath} alt=''></img>
-        </div>
-      ) : null}
+      {
+        uploadedFile ? ( //? same as if
+          <div>
+            <p>{uploadedFile.fileName}</p>
+            <p>{uploadedFile.user}</p>
+            <p>{uploadedFile.description}</p>
+            <p>{uploadedFile.date}</p>
+            <p>{uploadedFile.extension}</p>
+            <img src={uploadedFile.filePath} alt=''></img>
+          </div>
+        ) : null // : same as else
+      }
     </>
   )
 }
